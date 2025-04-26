@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Conversor de Temperatura</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="row g-3 align-items-end">
+            <div class="col-sm-4">
+              <label for="value" class="form-label">Cantidad</label>
+              <input 
+                type="number" 
+                step="any" 
+                class="form-control" 
+                id="value" 
+                name="value" 
+                value="{{ request.form.value }}" 
+                required>
+            </div>
+            <div class="col-sm-4">
+              <label for="from_unit" class="form-label">De</label>
+              <select class="form-select" id="from_unit" name="from_unit">
+                <option value="celsius" {% if request.form.from_unit == 'celsius' %}selected{% endif %}>Celsius</option>
+                <option value="fahrenheit" {% if request.form.from_unit == 'fahrenheit' %}selected{% endif %}>Fahrenheit</option>
+                <option value="kelvin" {% if request.form.from_unit == 'kelvin' %}selected{% endif %}>Kelvin</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label for="to_unit" class="form-label">A</label>
+              <select class="form-select" id="to_unit" name="to_unit">
+                <option value="celsius" {% if request.form.to_unit == 'celsius' %}selected{% endif %}>Celsius</option>
+                <option value="fahrenheit" {% if request.form.to_unit == 'fahrenheit' %}selected{% endif %}>Fahrenheit</option>
+                <option value="kelvin" {% if request.form.to_unit == 'kelvin' %}selected{% endif %}>Kelvin</option>
+              </select>
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success">Convertir</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {% if result is not none %}
+      <div class="card-footer">
+        <div class="alert alert-info mb-0">
+          <strong>Resultado:</strong> {{ request.form.value }} {{ request.form.from_unit }} = {{ result }} {{ request.form.to_unit }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Tabla con las fórmulas de conversión -->
+<div class="row justify-content-center my-5">
+  <div class="col-md-12 col-lg-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Fórmulas de Conversión</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead>
+              <tr>
+                <th>De</th>
+                <th>A</th>
+                <th>Fórmula</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Celsius</td>
+                <td>Fahrenheit</td>
+                <td>(°C × 9/5) + 32</td>
+              </tr>
+              <tr>
+                <td>Celsius</td>
+                <td>Kelvin</td>
+                <td>°C + 273.15</td>
+              </tr>
+              <tr>
+                <td>Fahrenheit</td>
+                <td>Celsius</td>
+                <td>(°F - 32) × 5/9</td>
+              </tr>
+              <tr>
+                <td>Fahrenheit</td>
+                <td>Kelvin</td>
+                <td>((°F - 32) × 5/9) + 273.15</td>
+              </tr>
+              <tr>
+                <td>Kelvin</td>
+                <td>Celsius</td>
+                <td>°K - 273.15</td>
+              </tr>
+              <tr>
+                <td>Kelvin</td>
+                <td>Fahrenheit</td>
+                <td>((°K - 273.15) × 9/5) + 32</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

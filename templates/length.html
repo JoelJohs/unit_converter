@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Conversor de Longitud</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="row g-3 align-items-end">
+            <div class="col-sm-4">
+              <label for="value" class="form-label">Cantidad</label>
+              <input 
+                type="number" 
+                step="any" 
+                class="form-control" 
+                id="value" 
+                name="value" 
+                value="{{ request.form.value }}" 
+                required>
+            </div>  
+            <div class="col-sm-4">
+              <label for="from_unit" class="form-label">De</label>
+              <select 
+                class="form-select" 
+                id="from_unit" 
+                name="from_unit">
+                {% for unit in units %}
+                  <option 
+                    value="{{ unit }}" 
+                    {% if request.form.from_unit == unit %}selected{% endif %}>
+                    {{ unit|title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label for="to_unit" class="form-label">A</label>
+              <select 
+                class="form-select" 
+                id="to_unit" 
+                name="to_unit">
+                {% for unit in units %}
+                  <option 
+                    value="{{ unit }}" 
+                    {% if request.form.to_unit == unit %}selected{% endif %}>
+                    {{ unit|title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success">Convertir</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {% if result is not none %}
+      <div class="card-footer">
+        <div class="alert alert-info mb-0">
+          <strong>Resultado:</strong> {{ request.form.value }} {{ request.form.from_unit }} = {{ result }} {{ request.form.to_unit }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Tabla con los factores de conversión -->
+<div class="row justify-content-center my-5">
+  <div class="col-md-12 col-lg-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Factores de Conversión</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Unidad</th>
+                <th>Milímetro</th>
+                <th>Centímetro</th>
+                <th>Metro</th>
+                <th>Kilómetro</th>
+                <th>Pulgada</th>
+                <th>Pie</th>
+                <th>Yarda</th>
+                <th>Milla</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Milímetro</td>
+                <td>1</td>
+                <td>0.1</td>
+                <td>0.001</td>
+                <td>0.000001</td>
+                <td>0.039370</td>
+                <td>0.003281</td>
+                <td>0.001094</td>
+                <td>0.00000062</td>
+              </tr>
+              <tr>
+                <td>Centímetro</td>
+                <td>10</td>
+                <td>1</td>
+                <td>0.01</td>
+                <td>0.00001</td>
+                <td>0.393701</td>
+                <td>0.032808</td>
+                <td>0.010937</td>
+                <td>0.00000621</td>
+              </tr>
+              <tr>
+                <td>Metro</td>
+                <td>1000</td>
+                <td>100</td>
+                <td>1</td>
+                <td>0.001</td>
+                <td>39.3701</td>
+                <td>3.28084</td>
+                <td>1.09361</td>
+                <td>0.000621</td>
+              </tr>
+              <tr>
+                <td>Kilómetro</td>
+                <td>1000000</td>
+                <td>100000</td>
+                <td>1000</td>
+                <td>1</td>
+                <td>39370.079</td>
+                <td>3280.84</td>
+                <td>1093.613</td>
+                <td>0.621371</td>
+              </tr>
+              <tr>
+                <td>Pulgada</td>
+                <td>25.4</td>
+                <td>2.54</td>
+                <td>0.0254</td>
+                <td>0.000025</td>
+                <td>1</td>
+                <td>0.083333</td>
+                <td>0.027778</td>
+                <td>0.000016</td>
+              </tr>
+              <tr>
+                <td>Pie</td>
+                <td>304.8</td>
+                <td>30.48</td>
+                <td>0.3048</td>
+                <td>0.000305</td>
+                <td>12</td>
+                <td>1</td>
+                <td>0.333333</td>
+                <td>0.000189</td>
+              </tr>
+              <tr>
+                <td>Yarda</td>
+                <td>914.4</td>
+                <td>91.44</td>
+                <td>0.9144</td>
+                <td>0.000914</td>
+                <td>36</td>
+                <td>3</td>
+                <td>1</td>
+                <td>0.000568</td>
+              </tr>
+              <tr>
+                <td>Milla</td>
+                <td>1609340</td>
+                <td>160934</td>
+                <td>1609.34</td>
+                <td>1.60934</td>
+                <td>63360</td>
+                <td>5280</td>
+                <td>1760</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

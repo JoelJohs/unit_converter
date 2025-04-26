@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Conversor de Peso</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="row g-3 align-items-end">
+            <div class="col-sm-4">
+              <label for="value" class="form-label">Cantidad</label>
+              <input 
+                type="number" 
+                step="any" 
+                class="form-control" 
+                id="value" 
+                name="value" 
+                value="{{ request.form.value }}" 
+                required>
+            </div>  
+            <div class="col-sm-4">
+              <label for="from_unit" class="form-label">De</label>
+              <select 
+                class="form-select" 
+                id="from_unit" 
+                name="from_unit">
+                {% for unit in units %}
+                  <option 
+                    value="{{ unit }}" 
+                    {% if request.form.from_unit == unit %}selected{% endif %}>
+                    {{ unit|title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label for="to_unit" class="form-label">A</label>
+              <select 
+                class="form-select" 
+                id="to_unit" 
+                name="to_unit">
+                {% for unit in units %}
+                  <option 
+                    value="{{ unit }}" 
+                    {% if request.form.to_unit == unit %}selected{% endif %}>
+                    {{ unit|title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success">Convertir</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {% if result is not none %}
+      <div class="card-footer">
+        <div class="alert alert-info mb-0">
+          <strong>Resultado:</strong> {{ request.form.value }} {{ request.form.from_unit }} = {{ result }} {{ request.form.to_unit }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Tabla con los factores de conversión para Peso -->
+<div class="row justify-content-center my-5">
+  <div class="col-md-12 col-lg-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Factores de Conversión</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Unidad</th>
+                <th>Miligramo</th>
+                <th>Gramo</th>
+                <th>Kilogramo</th>
+                <th>Onza</th>
+                <th>Libra</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Miligramo</td>
+                <td>1</td>
+                <td>0.001</td>
+                <td>0.000001</td>
+                <td>0.000035</td>
+                <td>0.000002</td>
+              </tr>
+              <tr>
+                <td>Gramo</td>
+                <td>1000</td>
+                <td>1</td>
+                <td>0.001</td>
+                <td>0.035274</td>
+                <td>0.002205</td>
+              </tr>
+              <tr>
+                <td>Kilogramo</td>
+                <td>1000000</td>
+                <td>1000</td>
+                <td>1</td>
+                <td>35.274</td>
+                <td>2.204622</td>
+              </tr>
+              <tr>
+                <td>Onza</td>
+                <td>28349.5</td>
+                <td>28.3495</td>
+                <td>0.0283495</td>
+                <td>1</td>
+                <td>0.0625</td>
+              </tr>
+              <tr>
+                <td>Libra</td>
+                <td>453592</td>
+                <td>453.592</td>
+                <td>0.453592</td>
+                <td>16</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
